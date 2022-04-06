@@ -1000,37 +1000,37 @@ def plugin_wrapper():
         model_class = StarDist2D if Signal.sender() is plugin.model2d else StarDist3D
         key = model_class, model_name
 
-        # if key not in model_configs:
+        if key not in model_configs:
 
-        #     @thread_worker
-        #     def _get_model_folder():
-        #         return get_model_folder(*key)
+            #     @thread_worker
+            def _get_model_folder():
+                return get_model_folder(*key)
 
-        #     def _process_model_folder(path):
-        #         try:
-        #             model_configs[key] = load_json(str(path / "config.json"))
-        #             try:
-        #                 # not all models have associated thresholds
-        #                 model_threshs[key] = load_json(str(path / "thresholds.json"))
-        #             except FileNotFoundError:
-        #                 pass
-        #         finally:
-        #             select_model(key)
-        #             plugin.progress_bar.hide()
+            def _process_model_folder(path):
+                try:
+                    model_configs[key] = load_json(str(path / "config.json"))
+                    try:
+                        # not all models have associated thresholds
+                        model_threshs[key] = load_json(str(path / "thresholds.json"))
+                    except FileNotFoundError:
+                        pass
+                finally:
+                    select_model(key)
+                    plugin.progress_bar.hide()
 
-        #     worker = _get_model_folder()
-        #     worker.returned.connect(_process_model_folder)
-        #     worker.start()
+            #   worker = _get_model_folder()
+            #   worker.returned.connect(_process_model_folder)
+            #   worker.start()
 
-        #     # delay showing progress bar -> won't show up if model already downloaded
-        #     # TODO: hacky -> better way to do this?
-        #     time.sleep(0.1)
-        #     plugin.call_button.enabled = False
-        #     plugin.progress_bar.label = "Downloading model"
-        #     plugin.progress_bar.show()
+            # delay showing progress bar -> won't show up if model already downloaded
+            # TODO: hacky -> better way to do this?
+            time.sleep(0.1)
+            plugin.call_button.enabled = False
+            plugin.progress_bar.label = "Downloading model"
+            plugin.progress_bar.show()
 
-        # else:
-        #     select_model(key)
+        else:
+            select_model(key)
 
     # load config/thresholds from custom model path
     # -> triggered by _model_type_change
