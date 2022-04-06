@@ -1,5 +1,6 @@
 from typing import Callable
 
+import napari
 from stardist.data import test_image_nuclei_2d as image_nuclei_2d
 
 from stardist_napari._dock_widget import plugin_wrapper
