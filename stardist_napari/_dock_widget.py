@@ -1002,7 +1002,7 @@ def plugin_wrapper():
 
         if key not in model_configs:
 
-            #     @thread_worker
+            @thread_worker
             def _get_model_folder():
                 return get_model_folder(*key)
 
@@ -1018,9 +1018,9 @@ def plugin_wrapper():
                     select_model(key)
                     plugin.progress_bar.hide()
 
-            #   worker = _get_model_folder()
-            #   worker.returned.connect(_process_model_folder)
-            #   worker.start()
+            worker = _get_model_folder()
+            worker.yielded.connect(_process_model_folder)
+            worker.start()
 
             # delay showing progress bar -> won't show up if model already downloaded
             # TODO: hacky -> better way to do this?
